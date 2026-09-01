@@ -23,8 +23,6 @@ done
 LINKS=(
   "zsh/.zshrc:.zshrc"
   "zsh/.p10k.zsh:.p10k.zsh"
-  "git/.gitconfig:.gitconfig"
-  "git/ignore:.config/git/ignore"
 )
 
 info() { printf '\033[0;34m==>\033[0m %s\n' "$*"; }
@@ -98,13 +96,7 @@ if [ -f "$HOME/.zshrc.local" ]; then
 else
   warn "~/.zshrc.local — ścieżki systemowe (Homebrew, JetBrains); szablon: zsh/.zshrc.local.example"
 fi
-if [ -f "$HOME/.gitconfig.local" ]; then
-  ok "~/.gitconfig.local"
-else
-  warn "~/.gitconfig.local — tożsamość gita; BEZ TEGO \`git commit\` odmówi. Szablon: git/.gitconfig.local.example"
-fi
-[ -f "$HOME/.npmrc" ]          && ok "~/.npmrc"          || warn "~/.npmrc — token npm (szablon: .npmrc.example)"
-[ -f "$HOME/.ssh/id_ed25519" ] && ok "~/.ssh/id_ed25519" || warn "~/.ssh/id_ed25519 — klucz SSH (wygeneruj: ssh-keygen -t ed25519)"
+[ -f "$HOME/.npmrc" ] && ok "~/.npmrc" || warn "~/.npmrc — token npm (szablon: .npmrc.example)"
 
 # p10k bez Nerd Fonta rysuje kwadraciki zamiast ikon
 info "Font"

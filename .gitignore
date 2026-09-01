@@ -2,9 +2,6 @@
 
 # Nigdy nie commituj sekretów ani danych osobowych
 .npmrc
-.gitconfig.local
 .zshrc.local
 *.pem
 *.key
-id_*
-!id_*.pub
