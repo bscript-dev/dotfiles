@@ -29,7 +29,11 @@ plugins=(
   docker
 )
 
-source $ZSH/oh-my-zsh.sh
+# Guard: a workspace where the Oh My Zsh clone failed still gets a working shell
+# (PATH, functions, nvm) instead of an error on every prompt.
+if [ -f "$ZSH/oh-my-zsh.sh" ]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
 # --- Node / nvm --------------------------------------------------------------
 # Dwa warianty instalacji: oficjalny instalator (~/.nvm) albo Homebrew (macOS).
