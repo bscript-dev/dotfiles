@@ -1,0 +1,28 @@
+# ~/.zshrc.local — rzeczy specyficzne dla JEDNEJ maszyny. NIE trafia do repo.
+# Skopiuj ten plik do ~/.zshrc.local i zostaw tylko sekcje, które pasują do systemu.
+# Ładowany na końcu ~/.zshrc.
+
+# ============================ macOS (Apple Silicon) ==========================
+
+# Homebrew — ustawia PATH, MANPATH i HOMEBREW_PREFIX (z niego .zshrc bierze nvm).
+# Na Intel Macu ścieżka to /usr/local/bin/brew, na Linuksie /home/linuxbrew/.linuxbrew/bin/brew.
+# UWAGA: normalnie ta linia siedzi w ~/.zprofile (login shell) i tam powinna zostać.
+# eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# JDK 21 z Homebrew przed systemowym javą (jeśli nie używasz jenv do wszystkiego)
+# export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
+
+# JetBrains Toolbox — skrypty startowe IDE (`idea .`, `pycharm .`, `webstorm .`)
+# macOS:
+# export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
+# Linux:
+# export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
+
+# Aliasy Findera i Homebrew z pluginów Oh My Zsh `macos` i `brew`.
+# Pluginy nie mają guardu na system (na Linuksie ładują się, ale ich komendy
+# zawodzą), więc nie ma ich w .zshrc. Na Macu można je dopisać do listy `plugins=()`.
+
+# ================================= Linux =====================================
+
+# Toolbox / IDE, jeśli używasz — patrz wyżej.
+# Menedżer pakietów, ścieżki dystrybucyjne itp.

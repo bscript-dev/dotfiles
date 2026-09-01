@@ -1,0 +1,90 @@
+# ~/.zshrc — interactive shell config
+# Zarządzane przez repo dotfiles (symlink). Edytuj w repo, nie w $HOME.
+#
+# Zasada tego pliku: NIC tu nie może zależeć od konkretnego systemu.
+# Każde ładowanie zewnętrznego narzędzia jest za guardem (istnieje? to załaduj).
+# Rzeczy specyficzne dla maszyny -> ~/.zshrc.local (patrz .zshrc.local.example).
+
+# --- Powerlevel10k instant prompt --------------------------------------------
+# Musi zostać blisko góry pliku. Wszystko, co może pytać o input (hasła,
+# potwierdzenia [y/n]), musi być NAD tym blokiem.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# --- Oh My Zsh ---------------------------------------------------------------
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+plugins=(
+  git
+  colored-man-pages
+  colorize
+  pip
+  python
+  zsh-syntax-highlighting   # custom plugin — instalowany przez install.sh
+  zsh-autosuggestions       # custom plugin — instalowany przez install.sh
+  ng
+  yarn
+  docker
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# --- Node / nvm --------------------------------------------------------------
+# Dwa warianty instalacji: oficjalny instalator (~/.nvm) albo Homebrew (macOS).
+export NVM_DIR="$HOME/.nvm"
+if [ -s "$NVM_DIR/nvm.sh" ]; then
+  \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+elif [ -s "${HOMEBREW_PREFIX:-/nonexistent}/opt/nvm/nvm.sh" ]; then
+  \. "${HOMEBREW_PREFIX}/opt/nvm/nvm.sh"
+  [ -s "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && \. "${HOMEBREW_PREFIX}/opt/nvm/etc/bash_completion.d/nvm"
+fi
+
+# --- Java / jenv -------------------------------------------------------------
+if command -v jenv >/dev/null 2>&1; then
+  eval "$(jenv init -)"
+  [ -d "$HOME/.jenv/shims" ] && export PATH="$HOME/.jenv/shims:$PATH"
+fi
+
+# --- Google Cloud SDK --------------------------------------------------------
+[ -f "$HOME/google-cloud-sdk/path.zsh.inc" ] && . "$HOME/google-cloud-sdk/path.zsh.inc"
+[ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ] && . "$HOME/google-cloud-sdk/completion.zsh.inc"
+
+# --- PATH --------------------------------------------------------------------
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+
+# --- Prompt ------------------------------------------------------------------
+# Aby zmienić wygląd: `p10k configure` (nadpisze ~/.p10k.zsh — skopiuj z powrotem do repo).
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# --- Funkcje: Docker ---------------------------------------------------------
+# Lista kontenerów: ID + obraz. Flagi: -s status, -n nazwy, -p porty, -e tylko zakończone.
+b_dcls() {
+  local fmt="table {{.ID}}\t{{.Image}}"
+  local args=()
+  for a in "$@"; do
+    case "$a" in
+      -s) fmt+="\t{{.Status}}" ;;
+      -n) fmt+="\t{{.Names}}"  ;;
+      -p) fmt+="\t{{.Ports}}"  ;;
+      -e) args+=(-a --filter "status=exited") ;;
+      *)  args+=("$a")         ;;
+    esac
+  done
+  docker container ls --format "$fmt" "${args[@]}"
+}
+
+# --- Funkcje: Git ------------------------------------------------------------
+# Graf commitów wszystkich gałęzi w jednej linii na commit.
+b_graph() {
+  git log --oneline --graph --decorate --all
+}
+
+# --- Lokalne, niewersjonowane rozszerzenia -----------------------------------
+# Ścieżki systemowe (Homebrew, JetBrains), tokeny, ustawienia per-maszyna.
+# (jako `if`, nie `&&` — inaczej brak pliku zostawia exit code 1 na pierwszym promptcie)
+if [ -f "$HOME/.zshrc.local" ]; then
+  source "$HOME/.zshrc.local"
+fi
