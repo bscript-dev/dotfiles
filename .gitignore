@@ -1,5 +1,5 @@
 .DS_Store
-
+.idea
 # Nigdy nie commituj sekretów ani danych osobowych
 .npmrc
 .zshrc.local
