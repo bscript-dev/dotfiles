@@ -1,3 +1,3 @@
-# Skopiuj do ~/.npmrc i wstaw prawdziwy token.
-# Token generujesz na npmjs.com -> Access Tokens.
-//registry.npmjs.org/:_authToken=<TWÓJ_TOKEN>
+# Copy to ~/.npmrc and put a real token in.
+# Generate one at npmjs.com -> Access Tokens.
+//registry.npmjs.org/:_authToken=<YOUR_TOKEN>

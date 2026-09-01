@@ -1,6 +1,6 @@
 .DS_Store
 .idea
-# Nigdy nie commituj sekretów ani danych osobowych
+# Never commit secrets or personal data
 .npmrc
 .zshrc.local
 *.pem

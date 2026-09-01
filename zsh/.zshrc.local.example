@@ -1,28 +1,33 @@
-# ~/.zshrc.local — rzeczy specyficzne dla JEDNEJ maszyny. NIE trafia do repo.
-# Skopiuj ten plik do ~/.zshrc.local i zostaw tylko sekcje, które pasują do systemu.
-# Ładowany na końcu ~/.zshrc.
+# ~/.zshrc.local — things specific to ONE machine. Never goes into the repo.
+# Copy this file to ~/.zshrc.local and keep only the sections that fit the system.
+# Sourced at the end of ~/.zshrc.
 
 # ============================ macOS (Apple Silicon) ==========================
 
-# Homebrew — ustawia PATH, MANPATH i HOMEBREW_PREFIX (z niego .zshrc bierze nvm).
-# Na Intel Macu ścieżka to /usr/local/bin/brew, na Linuksie /home/linuxbrew/.linuxbrew/bin/brew.
-# UWAGA: normalnie ta linia siedzi w ~/.zprofile (login shell) i tam powinna zostać.
+# Homebrew — sets PATH, MANPATH and HOMEBREW_PREFIX (which .zshrc uses to find nvm).
+# On an Intel Mac the path is /usr/local/bin/brew, on Linux /home/linuxbrew/.linuxbrew/bin/brew.
+# NOTE: this line normally lives in ~/.zprofile (login shell) and should stay there.
 # eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# JDK 21 z Homebrew przed systemowym javą (jeśli nie używasz jenv do wszystkiego)
+# JDK 21 from Homebrew ahead of the system java (if jenv does not manage everything)
 # export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
-# JetBrains Toolbox — skrypty startowe IDE (`idea .`, `pycharm .`, `webstorm .`)
+# JetBrains Toolbox — IDE launcher scripts (`idea .`, `pycharm .`, `webstorm .`)
 # macOS:
 # export PATH="$PATH:$HOME/Library/Application Support/JetBrains/Toolbox/scripts"
 # Linux:
 # export PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/scripts"
 
-# Aliasy Findera i Homebrew z pluginów Oh My Zsh `macos` i `brew`.
-# Pluginy nie mają guardu na system (na Linuksie ładują się, ale ich komendy
-# zawodzą), więc nie ma ich w .zshrc. Na Macu można je dopisać do listy `plugins=()`.
+# Finder and Homebrew aliases from the Oh My Zsh `macos` and `brew` plugins.
+# Those plugins have no OS guard (on Linux they load, but their commands fail),
+# so they are not in .zshrc. On a Mac you can add them to the `plugins=()` list.
 
 # ================================= Linux =====================================
 
-# Toolbox / IDE, jeśli używasz — patrz wyżej.
-# Menedżer pakietów, ścieżki dystrybucyjne itp.
+# Toolbox / IDEs, if you use them — see above.
+# Package manager paths, distro-specific settings, and so on.
+
+# ============================== Any machine ==================================
+
+# Tokens and credentials that must not be versioned:
+# export SOME_API_TOKEN="..."

@@ -1,13 +1,13 @@
 # ~/.zshrc — interactive shell config
-# Zarządzane przez repo dotfiles (symlink). Edytuj w repo, nie w $HOME.
+# Managed by the dotfiles repo (symlink). Edit it there, not in $HOME.
 #
-# Zasada tego pliku: NIC tu nie może zależeć od konkretnego systemu.
-# Każde ładowanie zewnętrznego narzędzia jest za guardem (istnieje? to załaduj).
-# Rzeczy specyficzne dla maszyny -> ~/.zshrc.local (patrz .zshrc.local.example).
+# Rule for this file: NOTHING here may depend on a specific OS.
+# Every external tool is loaded behind a guard (does it exist? then load it).
+# Machine-specific things go to ~/.zshrc.local (see .zshrc.local.example).
 
 # --- Powerlevel10k instant prompt --------------------------------------------
-# Musi zostać blisko góry pliku. Wszystko, co może pytać o input (hasła,
-# potwierdzenia [y/n]), musi być NAD tym blokiem.
+# Must stay near the top. Anything that can ask for input (passwords, [y/n]
+# confirmations) has to go ABOVE this block.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -22,8 +22,8 @@ plugins=(
   colorize
   pip
   python
-  zsh-syntax-highlighting   # custom plugin — instalowany przez install.sh
-  zsh-autosuggestions       # custom plugin — instalowany przez install.sh
+  zsh-syntax-highlighting   # custom plugin — installed by install.sh
+  zsh-autosuggestions       # custom plugin — installed by install.sh
   ng
   yarn
   docker
@@ -36,7 +36,7 @@ if [ -f "$ZSH/oh-my-zsh.sh" ]; then
 fi
 
 # --- Node / nvm --------------------------------------------------------------
-# Dwa warianty instalacji: oficjalny instalator (~/.nvm) albo Homebrew (macOS).
+# Two install layouts: the official installer (~/.nvm) or Homebrew (macOS).
 export NVM_DIR="$HOME/.nvm"
 if [ -s "$NVM_DIR/nvm.sh" ]; then
   \. "$NVM_DIR/nvm.sh"
@@ -60,11 +60,11 @@ fi
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
 # --- Prompt ------------------------------------------------------------------
-# Aby zmienić wygląd: `p10k configure` (nadpisze ~/.p10k.zsh — skopiuj z powrotem do repo).
+# To change the look: `p10k configure` (it overwrites ~/.p10k.zsh — copy it back to the repo).
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# --- Funkcje: Docker ---------------------------------------------------------
-# Lista kontenerów: ID + obraz. Flagi: -s status, -n nazwy, -p porty, -e tylko zakończone.
+# --- Functions: Docker -------------------------------------------------------
+# List containers: ID + image. Flags: -s status, -n names, -p ports, -e exited only.
 b_dcls() {
   local fmt="table {{.ID}}\t{{.Image}}"
   local args=()
@@ -80,15 +80,15 @@ b_dcls() {
   docker container ls --format "$fmt" "${args[@]}"
 }
 
-# --- Funkcje: Git ------------------------------------------------------------
-# Graf commitów wszystkich gałęzi w jednej linii na commit.
+# --- Functions: Git ----------------------------------------------------------
+# Commit graph of every branch, one line per commit.
 b_graph() {
   git log --oneline --graph --decorate --all
 }
 
-# --- Lokalne, niewersjonowane rozszerzenia -----------------------------------
-# Ścieżki systemowe (Homebrew, JetBrains), tokeny, ustawienia per-maszyna.
-# (jako `if`, nie `&&` — inaczej brak pliku zostawia exit code 1 na pierwszym promptcie)
+# --- Local, unversioned extensions -------------------------------------------
+# OS paths (Homebrew, JetBrains), tokens, per-machine settings.
+# (an `if`, not `&&` — otherwise a missing file leaves exit code 1 on the first prompt)
 if [ -f "$HOME/.zshrc.local" ]; then
   source "$HOME/.zshrc.local"
 fi
